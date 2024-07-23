@@ -5,9 +5,11 @@ import re
 class WordsFinder:
     def __init__(self, *file_names):
         self.file_names = file_names
+        self.all_words = {}
 
     def get_all_words(self):
-        all_words = {}
+        if self.all_words:
+            return self.all_words
 
         for file_name in self.file_names:
             words = []
@@ -17,27 +19,27 @@ class WordsFinder:
                         line = line.lower()
                         line = re.sub(r"[{}]".format(re.escape(string.punctuation.replace("'", ""))), '', line)
                         words.extend(line.split())
-                all_words[file_name] = words
+                self.all_words[file_name] = words
             except FileNotFoundError:
                 print(f'Файл {file_name} не найден.')
 
-        return all_words
+        return self.all_words
 
     def find(self, word):
-        all_words = self.get_all_words()
+        self.get_all_words()
         result = {}
 
-        for file_name, words in all_words.items():
+        for file_name, words in self.all_words.items():
             if word.lower() in words:
                 result[file_name] = words.index(word.lower()) + 1
 
         return result
 
     def count(self, word):
-        all_words = self.get_all_words()
+        self.get_all_words()
         result = {}
 
-        for file_name, words in all_words.items():
+        for file_name, words in self.all_words.items():
             result[file_name] = words.count(word.lower())
 
         return result
