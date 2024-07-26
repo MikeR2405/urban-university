@@ -1,44 +1,58 @@
 class Product:
     def __init__(self, name, weight, category):
         self.name = name
-        self.weigth = weight
+        self.weight = weight
         self.category = category
 
     def __str__(self):
-        return f'{self.name}, {self.weigth}, {self.category}'
+        return f'{self.name}, {self.weight}, {self.category}'
 
 
-class Shop():
+class Shop:
     def __init__(self):
-        self.__file_name = 'products.txt'
+        self.file_name = 'products.txt'
 
     def get_products(self):
         try:
-            with open(self.__file_name, 'r') as file:
+            with open(self.file_name, 'r') as file:
                 products = file.read()
-            return products
+            return products.splitlines()
         except FileNotFoundError:
-            return "File not found"
+            return []
 
     def add(self, *products):
-        existing_products = self.get_products().splitlines()
+        existing_products = self.get_products()
         existing_names = [line.split(',')[0] for line in existing_products]
 
-        with open(self.__file_name, 'a') as file:
-            for product in products:
-                if product.name not in existing_names:
+        for product in products:
+            if product.name not in existing_names:
+                with open(self.file_name, 'a') as file:
                     file.write(str(product) + '\n')
-                else:
-                    print(f'Продукт {product.name} уже есть в магазине')
+            else:
+                print(f'Продукт {product.name} уже есть в магазине')
 
 
+# Первый запуск
 s1 = Shop()
 p1 = Product('Potato', 50.5, 'Vegetables')
 p2 = Product('Spaghetti', 3.4, 'Groceries')
 p3 = Product('Potato', 5.5, 'Vegetables')
 
-print(p2)  # __str__
+print("Первый запуск:")
+print(p2)  # Выводит информацию о Spaghetti
+s1.add(p1, p2, p3)  # Добавление продуктов
 
-s1.add(p1, p2, p3)
+# Получаем актуальный список продуктов после первого добавления
+products_after_first_add = s1.get_products()
+for product in products_after_first_add:
+    print(product)
 
-print(s1.get_products())
+# Второй запуск
+print("\nВторой запуск:")
+s1 = Shop()  # Создаем новый экземпляр Shop для имитации второго запуска
+s1.add(p1, p2, p3)  # Повторно добавляем продукты
+
+# Получаем актуальный список продуктов после второго добавления
+products_after_second_add = s1.get_products()
+for product in products_after_second_add:
+    print(product)
