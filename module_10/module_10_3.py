@@ -3,7 +3,6 @@ import threading
 import time
 
 class Bank:
-    lock = threading.Lock()
     def __init__(self, balance):
         self.balance = balance
         self.lock = threading.Lock()
@@ -15,10 +14,6 @@ class Bank:
             with self.lock:
                 self.balance += amount
                 print(f'Пополнение: {amount}, баланс: {self.balance}')
-
-                if self.balance >= 500 and self.lock.locked():
-                    self.lock.release()
-                    continue
 
             time.sleep(0.001)
 
@@ -33,8 +28,6 @@ class Bank:
                     print(f'Снятие: {amount}. Баланс: {self.balance}')
                 else:
                     print(f'Запрос отклонён, недостаточно средств')
-
-                    self.lock.acquire()
 
             time.sleep(0.001)
 
