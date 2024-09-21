@@ -4,12 +4,11 @@ def introspection_info(obj):
     info = {}
     info['type'] = type(obj).__name__
     try:
-        info['attributes'] = dir(obj) if hasattr(obj,'__dict__') else 'Пустой объект'
+        info['attributes'] = [name for name, value in inspect.getmembers(obj) if not name.startswith('_')]
     except Exception as e:
-        info['attributes'] = "Нельзядостать атрибуты"
+        info['attributes'] = "Нельзя достать атрибуты"
     try:
-        info['methods'] = [m for m in dir(obj) if callable(getattr(obj, m))] if hasattr(obj, '__dir__')\
-            else 'Пустой объект'
+        info['methods'] = [name for name, value in inspect.getmembers(obj) if callable(value) and not name.startswith('_')]
     except Exception as e:
         info['methods'] = "Нельзя достать методы"
     try:
