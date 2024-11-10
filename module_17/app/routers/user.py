@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+
 user_router = APIRouter(prefix="/user", tags=["user"])
 
 @user_router.get("/")
@@ -21,3 +22,7 @@ async def update_user():
 @user_router.delete("/delete")
 async def delete_user():
     pass
+
+
+
+

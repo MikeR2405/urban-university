@@ -1,7 +1,7 @@
 from fastapi import FastAPI
-from task import task_router
-from user import user_router
-from schemas import CreateUser, UpdateUser, CreateTask, UpdateTask
+from .routers.task import task_router
+from .routers.user import user_router
+from .backend.db import engine, Base
 
 app = FastAPI()
 
@@ -11,3 +11,9 @@ async def root():
 
 app.include_router(task_router)
 app.include_router(user_router)
+
+# Создаём таблицы в базе данных
+@app.on_event("startup")
+async def startup_event():
+    print("Creating tables...")
+    Base.metadata.create_all(bind=engine)
