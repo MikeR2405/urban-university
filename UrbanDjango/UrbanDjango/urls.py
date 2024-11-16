@@ -18,9 +18,16 @@ from django.contrib import admin
 from django.urls import path, include
 from UrbanDjango.task2 import views
 from UrbanDjango.task2 import views
+from ..task3 import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('class_view/', views.ClassBasedView.as_view(), name='class_view'),
     path('function_view/', views.functionBasedView, name='function_view'),
+    path('', views.main_view, name='main'),
+    path('shop/', views.shop_view, name='shop'),
+    path('cart/', views.cart_view, name='cart'),
 ]
+
+
+

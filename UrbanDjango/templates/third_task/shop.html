@@ -1,0 +1,7 @@
+<h1>Магазин</h1>
+<ul>
+    {% for item, description in shop_items.items %}
+    <li>{{ item }} - {{ description }} <button>Купить</button> <button>Подробнее</button></li>
+    {% endfor %}
+</ul>
+<a href="/">На главную</a>
