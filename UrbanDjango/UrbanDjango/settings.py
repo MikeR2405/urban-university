@@ -54,7 +54,7 @@ ROOT_URLCONF = 'UrbanDjango.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['UrbanDjango/templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
