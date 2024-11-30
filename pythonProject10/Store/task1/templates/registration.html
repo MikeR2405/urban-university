@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+</head>
+<body>
+    <h1>Регистрация</h1>
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Имя:</label>
+        <input type="text" id="name" name="name" required>
+        <br>
+        <label for="balance">Баланс:</label>
+        <input type="number" id="balance" name="balance" step="0.01" required>
+        <br>
+        <label for="age">Возраст:</label>
+        <input type="number" id="age" name="age" required>
+        <br>
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+
+    <h2>Существующие пользователи:</h2>
+    <ul>
+        {% for buyer in buyers %}
+        <li>{{ buyer.name }} (Баланс: {{ buyer.balance }}, Возраст: {{ buyer.age }})</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
