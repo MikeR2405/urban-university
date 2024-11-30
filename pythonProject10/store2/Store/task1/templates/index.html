@@ -1,0 +1,28 @@
+<!-- task1/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+</head>
+<body>
+    <h1>Добро пожаловать в магазин игр!</h1>
+    <nav>
+        <ul>
+            <li><a href="{% url 'home' %}">Главная</a></li>
+            <li><a href="{% url 'product_list' %}">Список товаров</a></li>
+            <li><a href="{% url 'cart' %}">Корзина</a></li>
+            <li><a href="{% url 'registration' %}">Регистрация</a></li>
+        </ul>
+    </nav>
+</body>
+</html>
+
+
+<!--{% extends 'fourth_task/menu.html' %}-->
+
+<!--{% block pagename %}Главная страница{% endblock %}-->
+<!--{% block content %}-->
+<!--    <p>Контент главной страницы</p>-->
+<!--{% endblock %}-->
