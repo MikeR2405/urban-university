@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список постов</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">  <!-- Подключение ваших стилей (если нужно) -->
+</head>
+<body>
+    <h1>Список постов</h1>
+
+    <div>
+        {% for post in posts %}
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content }}</p>
+            <p><small>Создано: {{ post.created_at }}</small></p>
+            <hr>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        <span>Показывать по:
+            <select id="posts-per-page" onchange="location = this.value;">
+                <option value="{% url 'post_list' %}?page=1">5</option>
+                <option value="{% url 'post_list' %}?page=2">10</option>
+                <option value="{% url 'post_list' %}?page=3">15</option>
+            </select>
+        </span>
+
+        <div>
+            {% if posts.has_previous %}
+                <a href="?page=1">Первая</a>
+                <a href="?page={{ posts.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+            <span>Страница {{ posts.number }} из {{ posts.paginator.num_pages }}</span>
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Следующая</a>
+                <a href="?page={{ posts.paginator.num_pages }}">Последняя</a>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>
