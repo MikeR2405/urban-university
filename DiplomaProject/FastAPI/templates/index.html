@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task List</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Completed</th>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td><form id="task-form-{{ task.id }}" action="/tasks/{{ task.id }}" method="patch" style="display:inline;">
+                <input type="checkbox" {% if task.completed %}checked{% endif %}
+                       onchange="updateTaskStatus({{ task.id }}, this.checked)">
+            </form></td>
+                <td>{{ task.id }}</td>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.due_date }}</td>
+                <td>
+                    <form action="/tasks/{{ task.id }}" method="delete" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {%endfor%}
+        </tbody>
+    </table>
+    <br>
+    <a href="/tasks/new">Create a new task</a>
+
+</body>
+</html>
+
+<script>
+function updateTaskStatus(taskId, completed) {
+    // Создаем новый XMLHttpRequest
+    const xhr = new XMLHttpRequest();
+
+    // Открываем соединение, указав метод PATCH и URL
+    xhr.open("PATCH", "/tasks/" + taskId, true);
+
+    // Указываем, что мы отправляем JSON
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    // Отправляем данные (указываем новое состояние completed)
+    xhr.send(JSON.stringify({ completed: completed }));
+
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log("Task updated successfully");
+        } else {
+            console.error("Error updating task: " + xhr.responseText);
+        }
+    };
+}
+</script>
