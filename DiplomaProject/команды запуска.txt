@@ -1,0 +1,19 @@
+# Перейдите в директорию djangoProject
+cd djangoProject
+
+# Запустите приложения
+python manage.py runserver
+
+# Перейдите в директорию FastAPI
+cd DiplomaProject/FastAPI
+
+# Запустите FastAPI приложение с помощью Uvicorn
+uvicorn main:app --reload
+
+# Перейдите в директорию Flask
+cd DiplomaProject/Flask
+
+# Запустите сервер разработки
+python app.py
+
+
