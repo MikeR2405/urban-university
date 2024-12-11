@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.utils.timezone import make_aware  # Импортируем make_aware
 import datetime
 
+
 class TaskListView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = Task.objects.all()
@@ -15,9 +16,11 @@ class TaskListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
+
 def index_view(request):
     tasks = Task.objects.all()
     return render(request, 'TaskListWork/index.html', {'tasks': tasks})
+
 
 @login_required
 def task_create_view(request):
@@ -40,6 +43,7 @@ def task_create_view(request):
         return redirect('task_list')
 
     return render(request, 'TaskListWork/task_form.html')
+
 
 @login_required
 def task_delete_view(request, pk):

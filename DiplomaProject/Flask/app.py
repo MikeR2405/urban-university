@@ -13,6 +13,7 @@ with app.app_context():
 
 api = Api(app)
 
+
 class TaskListResource(Resource):
     def get(self):
         tasks = get_tasks()
@@ -25,6 +26,7 @@ class TaskListResource(Resource):
         task = create_task(title, description, due_date)
         return task_schema.dump(task), 201
 
+
 class TaskResource(Resource):
     def delete(self, task_id):
         task = delete_task(task_id)
@@ -32,13 +34,16 @@ class TaskResource(Resource):
             return {"detail": "Task deleted"}, 200
         return {"detail": "Task not found"}, 404
 
+
 api.add_resource(TaskListResource, '/tasks')
 api.add_resource(TaskResource, '/tasks/<int:task_id>')
+
 
 @app.route('/', methods=['GET'])
 def index():
     tasks = get_tasks()
     return render_template('index.html', tasks=tasks)
+
 
 @app.route('/tasks/new', methods=['GET', 'POST'])
 def task_form():
@@ -49,6 +54,7 @@ def task_form():
         create_task(title, description, due_date)
         return jsonify({"message": "Task created"}), 201
     return render_template('task_form.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
